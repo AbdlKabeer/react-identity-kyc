@@ -1,51 +1,72 @@
 /* eslint-disable prettier/prettier */
 "use client";
-import { useEffect } from 'react'
 
-import { identityScriptLoader } from './components/loadScript'
-
-declare global {
-  interface Window { IdentityKYC: any; }
-}
-
-window.IdentityKYC = window.IdentityKYC || {};
+import {
+  identityScriptLoader,
+  isIdentityWidgetReady,
+  loadIdentityScript
+} from './components/loadScript'
 
 interface Props {
-  first_name: string,
-  last_name: string,
+  first_name?: string,
+  last_name?: string,
   email: string,
-  merchant_key: string,
-  user_ref: string,
-  is_test: boolean,
-  config_id: string,
-  callback: () => void
+  phone?: string,
+  widget_key?: string,
+  widget_id?: string,
+  metadata?: Record<string, unknown>,
+  merchant_key?: string,
+  user_ref?: string,
+  config_id?: string,
+  is_test?: boolean | string,
+  callback: (response?: unknown, data?: unknown) => void
 }
 
-const useIdentityPayKYC = (props:Props) => {
-  const [scriptLoaded, scriptError] = identityScriptLoader()
+const useIdentityPayKYC = (props: Props) => {
+  identityScriptLoader()
 
   const options = {
     first_name: props.first_name,
     last_name: props.last_name,
     email: props.email,
-    merchant_key: props.merchant_key,
+    phone: props.phone,
+    widget_key: props.widget_key || props.merchant_key,
+    widget_id: props.widget_id || props.config_id,
+    metadata: props.metadata,
     user_ref: props.user_ref,
-    config_id:props.config_id,
+    merchant_key: props.merchant_key || props.widget_key,
+    config_id: props.config_id || props.widget_id,
     is_test: props.is_test,
     callback: props.callback
   }
 
-  const verifyWithIdentity = () => {
-    if (scriptLoaded) {
-      window.IdentityKYC.verify(options)
+  const reportLoadError = (error: Error) => {
+    const response = {
+      code: 'E00',
+      message: (error && error.message) || 'Could not load identitypass KYC script',
+      status: 'failed'
     }
+
+    if (typeof props.callback === 'function') {
+      props.callback(response, null)
+      return
+    }
+
+    console.error(response.message)
   }
 
-  useEffect(() => {
-    if (scriptError) {
-      throw new Error('Could not load identitypay KYC script')
+  const startVerification = () => {
+    if (isIdentityWidgetReady()) {
+      window.IdentityKYC?.verify(options)
+      return
     }
-  }, [scriptError])
+
+    throw new Error('Could not load identitypass KYC script')
+  }
+
+  const verifyWithIdentity = () => {
+    loadIdentityScript().then(startVerification).catch(reportLoadError)
+  }
 
   return verifyWithIdentity
 }
