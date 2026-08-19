@@ -20,22 +20,25 @@ import useIdentityPayKYC from 'react-identity-kyc'
 
 const App = () => {
   const config = {
-    first_name:"test",
-    last_name:"test",
-    email:"kayode@myidentitypass.com",
-    merchant_key:"",
-    user_ref:"a unique ref for your user",
-    is_test:false,  //set this to through for a test
-    config_id:"<configuration ID retrieve from your widget settings", //optional
-    callback:(response)=>console.log(response)
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'john@example.com',
+    phone: '+2348012345678',
+    widget_key: 'your_widget_key_here',
+    widget_id: 'your_widget_id_here',
+    metadata: {
+      transaction_id: 'txn_123'
+    },
+    callback: (response) => console.log(response)
   }
   const verifyWithIdentity = useIdentityPayKYC(config)
 
-  return <button onClick={verifyWithIdentity} >Click to Test</button>
+  return <button onClick={verifyWithIdentity}>Click to Test</button>
 }
 export default App
-
 ```
+
+Legacy `merchant_key`, `config_id`, `user_ref`, and `is_test` values are still forwarded for older widgets. New integrations should use `widget_key` and `widget_id` from the Prembly dashboard.
 
 
 ```jsx
