@@ -72,3 +72,7 @@ const useIdentityPayKYC = (props: Props) => {
 }
 
 export default useIdentityPayKYC
+
+export { default as usePremblyWorkflow } from './usePremblyWorkflow'
+export { startWorkflow } from './workflow'
+export { getWebDeviceId } from './device'
