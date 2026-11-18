@@ -10,6 +10,10 @@ export interface PremblyWorkflowProps extends WorkflowOptions {
  * The workflow as a component, the same shape as the React Native SDK's `<PremblyWorkflow>`. It
  * renders nothing itself: the flow is shown in a full-screen layer. Set `isVisible` back to false in
  * `callback`.
+ *
+ * Setting `isVisible` to false (or unmounting) closes the flow without calling `callback`, as hiding
+ * the React Native modal does. That also keeps React's StrictMode, which mounts twice in
+ * development, from reporting a `cancelled` for the flow it throws away.
  */
 export const PremblyWorkflow = (props: PremblyWorkflowProps) => {
   const { isVisible } = props
@@ -25,9 +29,11 @@ export const PremblyWorkflow = (props: PremblyWorkflowProps) => {
     startWorkflow({
       ...current,
       onEvent: (event) => {
-        if (latest.current.onEvent) latest.current.onEvent(event)
+        if (!stopped && latest.current.onEvent) latest.current.onEvent(event)
       },
-      callback: (result) => latest.current.callback(result)
+      callback: (result) => {
+        if (!stopped) latest.current.callback(result)
+      }
     }).then((opened) => {
       handle = opened
       if (stopped) opened.close()

@@ -118,7 +118,7 @@ Outside React, call `startWorkflow(options)` (also exported) and keep the return
 
 | Option | Required | Description |
 |---|---|---|
-| `isVisible` | Component only | Opens the workflow when true, closes it when false |
+| `isVisible` | Component only | Opens the workflow when true. Setting it to false closes the flow without calling `callback`, as hiding the React Native modal does |
 | `publishableKey` | Yes | `live_pk_...` or `test_pk_...`. A secret key is refused |
 | `workflowId` | Yes | The workflow to run |
 | `customer` | Yes | `{ firstName, lastName, email, phone?, reference? }` |
