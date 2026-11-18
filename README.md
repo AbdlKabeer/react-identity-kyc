@@ -1,22 +1,22 @@
-# react-identity-kyc
+# prembly-react-kyc
 
 >IdentityPass ReactJS Verification library
 
 >INTRODUCING PREMBLY 2.0
 
-[![NPM](https://img.shields.io/npm/v/react-identity-kyc.svg)](https://www.npmjs.com/package/react-identity-kyc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/prembly-react-kyc.svg)](https://www.npmjs.com/package/prembly-react-kyc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-identity-kyc
+npm install --save prembly-react-kyc
 ```
 
 ## Usage
 
 ```jsx
 import React from 'react'
-import useIdentityPayKYC from 'react-identity-kyc'
+import useIdentityPayKYC from 'prembly-react-kyc'
 
 const App = () => {
   const config = {
@@ -79,7 +79,7 @@ Start one of your compliance workflows from your page. The library creates the s
 As a component (the same shape as React Native):
 
 ```jsx
-import { PremblyWorkflow } from 'react-identity-kyc'
+import { PremblyWorkflow } from 'prembly-react-kyc'
 
 const App = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -108,7 +108,7 @@ const App = () => {
 Or as a hook, which returns a function that starts it:
 
 ```jsx
-import { usePremblyWorkflow } from 'react-identity-kyc'
+import { usePremblyWorkflow } from 'prembly-react-kyc'
 
 const start = usePremblyWorkflow({ publishableKey: 'test_pk_...', workflowId: 'wf_123', customer, callback })
 return <button onClick={start}>Verify</button>
@@ -152,7 +152,7 @@ Inside an embedded widget the browser keeps the widget's storage apart per site,
 `PremblyTM` collects the browser's device signals and creates a device session. It is the same API as the React Native SDK's `PremblyTM`. Send `deviceSessionId` to your backend with the transaction and pass it as `device_session_id` when you screen with your secret key.
 
 ```js
-import { PremblyTM } from 'react-identity-kyc'
+import { PremblyTM } from 'prembly-react-kyc'
 
 // Once, when the app loads. A bad key throws here; nothing after this does.
 PremblyTM.init({ publishableKey: 'test_pk_...' })
@@ -184,4 +184,3 @@ const { deviceSessionId, error } = await PremblyTM.getDeviceSession()
 ## License
 
 MIT © [kayode001(Kayode Olayiwola)](https://github.com/kayode001)
-"# react-identity-kyc"
