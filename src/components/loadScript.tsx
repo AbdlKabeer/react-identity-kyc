@@ -133,7 +133,7 @@ export const loadIdentityScript = () => {
 }
 
 export const identityScriptLoader = (): [boolean, Error | null] => {
-  const [scriptLoaded, setScriptLoaded] = useState(() => isIdentityWidgetReady())
+  const [scriptLoaded, setScriptLoaded] = useState(() => !!isIdentityWidgetReady())
   const [scriptError, setScriptError] = useState<Error | null>(null)
 
   useEffect(() => {
