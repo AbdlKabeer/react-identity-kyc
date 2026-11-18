@@ -74,5 +74,26 @@ const useIdentityPayKYC = (props: Props) => {
 export default useIdentityPayKYC
 
 export { default as usePremblyWorkflow } from './usePremblyWorkflow'
-export { startWorkflow } from './workflow'
-export { getWebDeviceId } from './device'
+export { PremblyWorkflow } from './PremblyWorkflow'
+export type { PremblyWorkflowProps } from './PremblyWorkflow'
+export { startWorkflow, createWorkflowSession, PremblyWorkflowError } from './workflow'
+export type {
+  WorkflowCustomer,
+  WorkflowEnd,
+  WorkflowErrorCode,
+  WorkflowEvent,
+  WorkflowHandle,
+  WorkflowOptions,
+  WorkflowPrefill,
+  WorkflowResult,
+  WorkflowSessionInfo
+} from './workflow'
+export { PremblyTM } from './tm/PremblyTM'
+export type {
+  DeviceSession,
+  GetDeviceSessionOptions,
+  InitOptions,
+  SessionError,
+  SignalBundle
+} from './tm/PremblyTM'
+export { getWebDeviceId, SDK_VERSION } from './device'
