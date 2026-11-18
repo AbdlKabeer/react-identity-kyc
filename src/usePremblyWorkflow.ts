@@ -11,13 +11,15 @@ const usePremblyWorkflow = (options: WorkflowOptions) => {
   const handle = useRef<WorkflowHandle | null>(null)
   const unmounted = useRef(false)
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    // Set on every mount: React's StrictMode unmounts and mounts again in development, and a flag
+    // left over from that first unmount would close every flow this hook starts.
+    unmounted.current = false
+    return () => {
       unmounted.current = true
       if (handle.current) handle.current.close()
-    },
-    []
-  )
+    }
+  }, [])
 
   return useCallback(async () => {
     const opened = await startWorkflow(latest.current)
